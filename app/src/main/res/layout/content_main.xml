@@ -27,6 +27,7 @@
             android:layout_weight="1"
             android:background="@drawable/rect_box"
             android:gravity="center"
+            android:hint="Budget"
             android:inputType="numberDecimal"
             android:padding="8dp" />
 
@@ -40,6 +41,7 @@
             android:layout_weight="1"
             android:background="@drawable/rect_box"
             android:gravity="center"
+            android:hint="Cost Per Click"
             android:inputType="numberDecimal"
             android:padding="8dp" />
     </TableRow>
@@ -59,6 +61,7 @@
             android:layout_weight="1"
             android:background="@drawable/rect_box"
             android:gravity="center"
+            android:hint="Conversion Rate"
             android:inputType="numberDecimal"
             android:padding="8dp" />
 
@@ -72,33 +75,37 @@
             android:layout_weight="1"
             android:background="@drawable/rect_box"
             android:gravity="center"
+            android:hint="Avg. Sales Size"
             android:inputType="numberDecimal"
             android:padding="8dp" />
     </TableRow>
 
     <TableRow
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
-    <Button
-        android:layout_margin="4dp"
-        android:id="@+id/calculate_but"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Calculate" />
-    <Button
-        android:layout_margin="4dp"
-        android:id="@+id/reset_but"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="RESET" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp">
 
-</TableRow>
+        <Button
+            android:id="@+id/calculate_but"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:text="Calculate" />
+
+        <Button
+            android:id="@+id/reset_but"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:text="RESET" />
+
+    </TableRow>
+
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"
@@ -108,7 +115,7 @@
         android:background="@drawable/rect_box"
         android:gravity="center"
         android:padding="8dp"
-        android:textSize="24sp" />
+        android:textSize="16sp"/>
 
 
 </LinearLayout>

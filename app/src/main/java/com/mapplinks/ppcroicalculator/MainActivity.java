@@ -1,11 +1,13 @@
 package com.mapplinks.ppcroicalculator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,9 +15,16 @@ import android.widget.Toast;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
+import java.text.DecimalFormat;
+
 public class MainActivity extends AppCompatActivity {
-    double budget, costPerClick, convRate, avgSaleSize, totClicks, totSales, revenue, profit, ROI;
+    double budget, costPerClick, convRate, avgSaleSize, totClicks, totSales, revenue, profit, ROI, ROAS;
     TextView resultView;
+
+    DecimalFormat precision = new DecimalFormat("0.0000");
+    DecimalFormat precision1 = new DecimalFormat("0");
+    DecimalFormat precision2 = new DecimalFormat("0.00");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +35,27 @@ public class MainActivity extends AppCompatActivity {
         String projectToken = "2f1020b47151e4f80946a591d41f5d8f";
         final MixpanelAPI mixpanel = MixpanelAPI.getInstance(this, projectToken);
 
-        final EditText budgetView, CPCView,convRateView,avgSalesSizeView;
+        final EditText budgetView, CPCView, convRateView, avgSalesSizeView;
 
-        budgetView = (EditText)findViewById(R.id.budget);
-        CPCView = (EditText)findViewById(R.id.cpc);
-        convRateView = (EditText)findViewById(R.id.conv_rate);
-        avgSalesSizeView = (EditText)findViewById(R.id.avg_sales_size);
+        budgetView = (EditText) findViewById(R.id.budget);
+        CPCView = (EditText) findViewById(R.id.cpc);
+        convRateView = (EditText) findViewById(R.id.conv_rate);
+        avgSalesSizeView = (EditText) findViewById(R.id.avg_sales_size);
+
+        resultView = (TextView) findViewById(R.id.result);
 
         Button calc = (Button) findViewById(R.id.calculate_but);
         Button reset = (Button) findViewById(R.id.reset_but);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                budgetView.setText("");
+                CPCView.setText("");
+                convRateView.setText("");
+                avgSalesSizeView.setText("");
+                resultView.setText("");
+            }
+        });
 
         calc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,15 +66,21 @@ public class MainActivity extends AppCompatActivity {
                 cr = convRateView.getText().toString();
                 ass = avgSalesSizeView.getText().toString();
 
-                if(b.isEmpty()||cpc.isEmpty()||cr.isEmpty()||ass.isEmpty()){
+                if (b.isEmpty() || cpc.isEmpty() || cr.isEmpty() || ass.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Enter All The Fields!", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     budget = Double.parseDouble(b);
                     costPerClick = Double.parseDouble(cpc);
                     convRate = Double.parseDouble(cr);
                     avgSaleSize = Double.parseDouble(ass);
-                    mixpanel.track("Calculate");
-                    calculate();
+                    if (convRate > 100) {
+                        Toast.makeText(MainActivity.this, "Conversion Rate can't be greater than 100!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mixpanel.track("Calculate");
+                        calculate();
+                        InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(v.getWindowToken(),0);
+                    }
                 }
             }
         });
@@ -61,11 +88,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void calculate() {
-        totClicks = budget/costPerClick;
-        totSales = budget*convRate/100;
-        revenue = totSales*avgSaleSize;
-        profit = revenue-budget;
-        ROI = profit/budget*100;
+        totClicks = budget / costPerClick;
+        totSales = totClicks * convRate / 100;
+        revenue = totSales * avgSaleSize;
+        profit = revenue - budget;
+        ROI = profit / budget * 100;
+        ROAS = revenue / budget * 100;
+
+
+        resultView.setText("Total Clicks: " + precision1.format(totClicks) + "\t\tTotal Sales: " + precision1.format(totSales)
+                + "\n\nRevenue: " + precision2.format(revenue) + "\t\tProfit: " + precision2.format(profit)
+                + "\n\nROI: " + precision.format(ROI) + "%\t\tROAS: " + precision.format(ROAS) + "%");
 
     }
 
