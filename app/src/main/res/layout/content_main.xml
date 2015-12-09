@@ -106,16 +106,30 @@
 
     </TableRow>
 
-    <TextView
-        android:id="@+id/result"
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/rect_box"
-        android:gravity="center"
-        android:padding="8dp"
-        android:textSize="16sp"/>
+        android:background="@drawable/rect_box">
 
+        <TextView
+            android:id="@+id/result1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/result2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:textSize="16sp" />
+    </TableRow>
 
 </LinearLayout>

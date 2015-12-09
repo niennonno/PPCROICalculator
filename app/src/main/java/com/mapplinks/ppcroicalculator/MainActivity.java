@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
     double budget, costPerClick, convRate, avgSaleSize, totClicks, totSales, revenue, profit, ROI, ROAS;
-    TextView resultView;
+    TextView result1View, result2View;
 
     DecimalFormat precision = new DecimalFormat("0.0000");
     DecimalFormat precision1 = new DecimalFormat("0");
@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
         convRateView = (EditText) findViewById(R.id.conv_rate);
         avgSalesSizeView = (EditText) findViewById(R.id.avg_sales_size);
 
-        resultView = (TextView) findViewById(R.id.result);
+        result1View = (TextView) findViewById(R.id.result1);
+        result2View = (TextView) findViewById(R.id.result2);
 
         Button calc = (Button) findViewById(R.id.calculate_but);
         Button reset = (Button) findViewById(R.id.reset_but);
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 CPCView.setText("");
                 convRateView.setText("");
                 avgSalesSizeView.setText("");
-                resultView.setText("");
+                result1View.setText("");
+                result2View.setText("");
             }
         });
 
@@ -96,9 +98,13 @@ public class MainActivity extends AppCompatActivity {
         ROAS = revenue / budget * 100;
 
 
-        resultView.setText("Total Clicks: " + precision1.format(totClicks) + "\t\tTotal Sales: " + precision1.format(totSales)
-                + "\n\nRevenue: " + precision2.format(revenue) + "\t\tProfit: " + precision2.format(profit)
-                + "\n\nROI: " + precision.format(ROI) + "%\t\tROAS: " + precision.format(ROAS) + "%");
+        result1View.setText("Total Clicks: " + precision1.format(totClicks) +
+                            "\n\nRevenue: " + precision2.format(revenue) +
+                            "\n\nROI: " + precision.format(ROI) + "%");
+
+        result2View.setText("Total Sales: " + precision1.format(totSales)
+                + "\n\nProfit: " + precision2.format(profit)
+                +  "\n\nROAS: " + precision.format(ROAS) + "%");
 
     }
 
